@@ -104,7 +104,21 @@ resolveImagePaths = (html, filePath, copyHTMLFlag) ->
       if src[0] is '/'
         unless fs.isFileSync(src)
           try
-            src = path.join(rootDirectory, src.substring(1))
+            jekyllRootDir = ""
+            if atom.config.get('markdown-preview-plus.enableJekyllSupport')
+              configDir = path.dirname(filePath)
+              while true
+                if fs.existsSync path.join(configDir, "_config.yml")
+                  jekyllRootDir = configDir
+                  break
+                configDir = path.join(configDir, "..")
+                if configDir == "/"
+                  break
+
+              src = path.join(jekyllRootDir, src)
+
+            if jekyllRootDir == ""
+              src = path.join(rootDirectory, src.substring(1))
           catch e
       else
         src = path.resolve(path.dirname(filePath), src)
