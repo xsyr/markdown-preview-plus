@@ -131,7 +131,11 @@ module.exports =
       description: 'Full path to fallback cslfile'
       dependencies: ['pandocBibliography']
       order: 175
-
+    enableJekyllSupport:
+      type: 'boolean'
+      default: false
+      title: 'Enable jekyll support'
+      order: 180
 
   activate: ->
     if parseFloat(atom.getVersion()) < 1.7
